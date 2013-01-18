@@ -24,7 +24,7 @@ data Term = TVar String
           | TLet String Term Term
           | TNeg Term Term
           | TCont Term Term Prop
-          | TNElim Term
+          | TNElim Term deriving Show
 
 equiv :: Prop -> Prop -> Bool
 equiv = (==)
