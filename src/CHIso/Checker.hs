@@ -9,7 +9,7 @@ module CHIso.Checker where
 import CHIso.Syntax
 import Data.List
 import CHIso.Rules
-import Control.Monad.Trans.Error
+import Control.Monad.Error
 import Control.Monad.Reader
 
 buildRule :: Prop -> String -> [Rule] -> ErrorT String (Reader [(String, Prop)]) Rule

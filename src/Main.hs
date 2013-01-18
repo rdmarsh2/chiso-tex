@@ -10,4 +10,4 @@ import CHIso.Syntax
 import CHIso.Rules
 import CHIso.Checker
 
-main = undefined
+main = putStr "There's only libraries here.  Use ghci if you're desperate"

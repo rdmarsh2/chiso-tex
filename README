@@ -2,3 +2,9 @@ This will eventually take a proof term in an SML or haskell-like concrete syntax
 and convert it into a LaTeX-formatted proof of the type in a termless logic.
 Right now, only the checker and pretty-printer are done, so it's only useable in
 ghci.
+
+TODO: 
+	concrete syntax and parser
+	useful main
+	add first-order logic
+
