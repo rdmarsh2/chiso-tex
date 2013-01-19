@@ -10,5 +10,5 @@ executable program1
   main-is:         Main.hs
   hs-source-dirs:  src
   other-modules:   
-  build-depends: base, containers, mtl, transformers
+  build-depends: base, containers, mtl, transformers, parsec, bytestring
 

@@ -9,5 +9,6 @@ module Main where
 import CHIso.Syntax
 import CHIso.Rules
 import CHIso.Checker
+import CHIso.Parser
 
 main = putStr "There's only libraries here.  Use ghci if you're desperate"
