@@ -12,7 +12,7 @@ import Data.List
 data Rule = Rule [Prop] Prop String [Rule] deriving Show
 
 data Mode = MLft | MRgt
-data Side = Lft | Rgt | Mid
+data Assoc = Lft | Rgt
 
 render :: Rule -> Mode -> Bool -> String
 render (Rule g p label prems) mode end =
@@ -36,16 +36,19 @@ renderProp = renderProp' 0
 
 renderProp' :: Int -> Prop -> String
 renderProp' _ (PVar s) = s
-renderProp' i (PAnd p1 p2) =  renderBinProp i 0 p1 " \\wedge " p2
-renderProp' i (POr p1 p2) = renderBinProp i 0 p1" \\vee " p2
-renderProp' i (PImp p1 p2) = renderBinProp i 1 p1 " \\rightarrow " p2
+renderProp' i (PAnd p1 p2) =  renderBinProp i 0 Rgt p1 " \\wedge " p2
+renderProp' i (POr p1 p2) = renderBinProp i 0 Rgt p1" \\vee " p2
+renderProp' i (PImp p1 p2) = renderBinProp i 1 Rgt p1 " \\rightarrow " p2
 renderProp' _ (PNeg p) = "\\neg " ++ (renderProp' 2 p)
 
-renderBinProp :: Int -> Int -> Prop -> String -> Prop -> String
-renderBinProp outer prec p1 s p2 =
+renderBinProp :: Int -> Int -> Assoc -> Prop -> String -> Prop -> String
+renderBinProp outer prec assoc p1 s p2 =
   let
     paren = if (outer > prec) then (\x -> concat ["(", x, ")"]) else (\x -> x)
-    p1' = renderProp' prec p1
-    p2' = renderProp' prec p2
+    (precl, precr) = case assoc of 
+      Lft -> (prec, prec + 1)
+      Rgt -> (prec + 1, prec)
+    p1' = renderProp' precl p1
+    p2' = renderProp' precr p2
   in
     paren $ p1' ++ s ++ p2'
