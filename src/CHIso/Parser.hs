@@ -33,7 +33,7 @@ term =
       t <- term
       reserved "of"
       (s1, t1) <- binding
-      symbol "|"
+      symbol ";"
       (s2, t2) <- binding
       return $ TCase t s1 t1 s2 t2)
   <|>
