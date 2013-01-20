@@ -1,5 +1,5 @@
 name:            chiso-tex
-version:         0.0
+version:         1.0
 synopsis:        A program using the curry-howard isomorphism to generate typeset latex derivations from a proof term.
 license-file:    LICENSE
 author:          Robert Marsh <rdmarsh2@gmail.com>

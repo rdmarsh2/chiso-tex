@@ -16,6 +16,23 @@ import qualified Text.Parsec.Token as Tok
 
 type Parser a = Parsec ByteString () a
 
+proof :: Parser ([(String, Prop)], Term)
+proof = do
+  g <- context
+  symbol "|-"
+  t <- term
+  return (g, t)
+
+context :: Parser [(String, Prop)]
+context = sepBy contextElem comma
+
+contextElem :: Parser (String, Prop)
+contextElem = do 
+  i <- ident
+  colon
+  p <- prop
+  return (i, p)
+
 term :: Parser Term
 term = do
   ts <- termApp
@@ -143,7 +160,7 @@ simpleProp =
   <|>
   fmap PVar ident
   <|>
-  (do symbol "-"
+  (do symbol "~"
       fmap PNeg prop)
   
 
