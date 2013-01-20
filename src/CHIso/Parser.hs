@@ -96,7 +96,7 @@ term' =
   <|>
   (fmap TVar ident)
   <?>
-  "expected term"
+  "term"
 
 binding :: Parser (String, Term)
 binding = do
@@ -124,7 +124,7 @@ prop =
   <|>
   simpleProp
   <?>
-  "expected proposition"
+  "proposition"
 
 op :: Parser (Prop -> Prop -> Prop)
 op = 
@@ -157,7 +157,8 @@ proofTermDef = LanguageDef {
   identLetter = alphaNum <|> char '_',
   opStart = oneOf "",
   opLetter = oneOf "",
-  reservedNames = [],
+  reservedNames = ["case", "of", "injl", "at", "injr", "projl", "projr", "neg",
+                   "cont", "dne", "let", "in"],
   reservedOpNames = [],
   caseSensitive = True
   }
