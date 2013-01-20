@@ -1,0 +1,38 @@
+The syntax here is inspired primarily by Karl Crary's blackboard notation,
+although the negation-related syntax is my own.
+There are a couple questionable aspects, in particular the reuse of "><" in the
+term for proof by negation and the term for contradiction elimination.
+Currently, identifiers are all alphanumeric non-keywords.  Addition of
+first-order logic may require addition of some keywords, likely including
+"forall" and "exists".
+
+<proof>       ::= <context> "|-" <term>
+
+<context>     ::= <ident> ":" <prop> "," <context>
+                | ""
+
+<prop>        ::= <simple-prop> <prop-op> <prop>
+                | <simple-prop>
+
+<simple-prop> ::= <ident>
+                | "~" <prop>
+                | "(" <prop> ")"
+
+<prop-op>     ::= "&" 
+                | "|" 
+                | "->"
+
+<term>        ::= <ident>
+                | "(" <ident> ")"
+                | "\" <ident> ":" <proof> "." <term>
+                | <term> <term>
+                | "injl" <term> "at" <prop>
+                | "injr" <term> "at" <prop>
+                | "case" <term> "of" <ident> "." <term> ";" <ident> "." <term>
+                | "(" <term> "," <term> ")"
+                | "projl" <term>
+                | "projr" <term>
+                | "let" <ident> "=" <term> "in" <term>
+                | "neg" <term> "><" <term>
+                | "cont" <term> "><" <term> "thus" <prop>
+                | "dne" <term>
