@@ -8,6 +8,7 @@ module CHIso.Parser where
 import Control.Monad.Identity
 import Data.ByteString (ByteString)
 import qualified Data.ByteString as BS
+import qualified Data.List as L
 import CHIso.Syntax
 import Text.Parsec
 import Text.Parsec.Token (GenLanguageDef (..))
@@ -16,7 +17,20 @@ import qualified Text.Parsec.Token as Tok
 type Parser a = Parsec ByteString () a
 
 term :: Parser Term
-term =
+term = do
+  ts <- termApp
+  case ts of
+    [] -> fail "Expected term - parser has gone truly wrong" 
+    t : ts' -> return $ foldl TApp t ts'
+
+termApp :: Parser [Term]
+termApp = do
+  t <- term'
+  ts <- option [] $ try termApp
+  return $ t : ts
+
+term' :: Parser Term
+term' = 
   (try $ parens term)
   <|>
   (parens $ do
@@ -80,7 +94,9 @@ term =
   (do reserved "dne"
       fmap TNElim term)
   <|>
-  (fmap TVar ident) 
+  (fmap TVar ident)
+  <?>
+  "expected term"
 
 binding :: Parser (String, Term)
 binding = do
@@ -107,6 +123,8 @@ prop =
     return $ o p1 p2)
   <|>
   simpleProp
+  <?>
+  "expected proposition"
 
 op :: Parser (Prop -> Prop -> Prop)
 op = 
